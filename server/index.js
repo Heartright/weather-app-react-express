@@ -14,12 +14,17 @@ app.get("/api/:latlon", async (req, res) => {
     const response = await axios.get(
       `https://www.metaweather.com/api/location/search/?lattlong=${lat},${lon}`
     );
+    const city = response.data[0].woeid;
+    const getwoeid = await axios.get(
+      `https://www.metaweather.com/api/location/${city}`
+    );
+    res.status(200).json(getwoeid.data);
   } catch (err) {
     res.status(500).json({ message: err });
   }
 });
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5050;
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
 });
