@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { WeatherForm } from "./components/WeatherForm";
 import { WeatherForecast } from "./components/WeatherForecast";
+import { WeatherToday } from "./components/WeatherToday"
 import styled, { createGlobalStyle } from "styled-components";
 
 export const WeatherApp = () => {
@@ -27,7 +28,7 @@ export const WeatherApp = () => {
       );
       const dateweather = response.data;
       setWeather(dateweather.consolidated_weather);
-      setCity(response.date);
+      setCity(response.data);
       console.log(dateweather);
     } catch (error) {
       console.log(error.message);
@@ -37,6 +38,7 @@ export const WeatherApp = () => {
   return (
     <WeatherWrapper>
       <WeatherForm fetchWeather={fetchWeather} />
+      {!!city.title && <WeatherToday weather={weather} city={city} />}
       <WeatherList>
         {weather.slice(1).map((forecast) => {
           return <WeatherForecast forecast={forecast} key={forecast.id} />;
